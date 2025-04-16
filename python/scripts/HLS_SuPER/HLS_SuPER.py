@@ -205,6 +205,7 @@ def format_roi(roi):
 
         # Convert bbox to a geodataframe for clipping
         roi = gpd.GeoDataFrame(geometry=[box(*bbox)], crs="EPSG:4326")
+        roi['geometry'] = roi['geometry'].apply(ensure_ccw) 
 
         vertices_list = list(roi.geometry[0].exterior.coords)
 
