@@ -38,7 +38,10 @@ def main():
                            GDAL_HTTP_COOKIEJAR=os.path.expanduser('~/cookies.txt'))
 
     # Load boundary shapefile
-    roi = gpd.read_file("../../data/Boundary_VaccStates_Export/Boundary_VaccStates_Export.shp")
+    roi_all = gpd.read_file("../../data/Boundary_VaccStates_Export/Boundary_VaccStates_Export.shp")
+    index = 0
+    roi = roi_all.iloc[[index]]
+    print("State Processing:", roi.iloc[0]['StateName'])
 
     # Search STAC catalog
     catalog = pystac_client.Client.open("https://cmr.earthdata.nasa.gov/stac/LPCLOUD")
