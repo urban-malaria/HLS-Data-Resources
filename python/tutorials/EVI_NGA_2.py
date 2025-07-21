@@ -84,7 +84,16 @@ def main():
     # Calculate EVI lazily
     evi_ds = 2.5 * ((ds.NIR - ds.B04) / (ds.NIR + 6.0 * ds.B04 - 7.5 * ds.B02 + 1.0))
 
-    # Apply cloud/shadow mask
+    #Quality mask updated to single chunk - added 
+     if 'x' in ds.dims and 'y' in ds.dims:
+        try:
+            ds = ds.rechunk({'x': -1, 'y': -1})
+            print("Rechunked ds to a single chunk across x and y.")
+        except Exception as e:
+            print("Rechunking failed:", e)
+            return
+    
+    # Apply cloud/shadow mask -
     quality_mask = xr.apply_ufunc(
         create_quality_mask,
         ds.Fmask,
@@ -95,6 +104,8 @@ def main():
         dask='parallelized',
         output_dtypes=[np.bool_],
     )
+
+  
 
     evi_ds = evi_ds.where(~quality_mask)
 
