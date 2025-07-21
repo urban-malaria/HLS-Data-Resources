@@ -43,7 +43,7 @@ def main():
 
     # Load ROI
     roi_all = gpd.read_file("../../data/Boundary_VaccStates_Export/Boundary_VaccStates_Export.shp")
-    index = 0
+    index = 17
     roi = roi_all.iloc[[index]]
     print("State Processing:", roi.iloc[0]['StateName'])
 
